@@ -10,7 +10,7 @@
 ![Attack](screenshots/attack_simulation.png)
 
 ### Attacker Script
-![Attacker Script](screenshots/attack_script.png)
+![Attacker Script](screenshots/attacker_script.png)
 
 ### Dashboard Page
 ![Dashboard](screenshots/dashboard_page.png)
