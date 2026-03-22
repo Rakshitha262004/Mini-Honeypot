@@ -1,19 +1,19 @@
 ## Screenshots
 
 ### Listener Running
-![Listener](screenshots/listener_running.png)
+![Listener](screenshots/screenshots/listener_running.png)
 
 ### Flask Server Running
-![Flask](screenshots/flask_running.png)
+![Flask](screenshots/screenshots/flask_running.png)
 
 ### Attack Simulation
-![Attack](screenshots/attack_simulation.png)
+![Attack](screenshots/screenshots/attack_simulation.png)
 
 ### Attacker Script
-![Attacker Script](screenshots/attacker_script.png)
+![Attacker Script](screenshots/screenshots/attacker_script.png)
 
 ### Dashboard Page
-![Dashboard](screenshots/dashboard_page.png)
+![Dashboard](screenshots/screenshots/dashboard_page.png)
 
 ### Logs JSON File
-![Logs](screenshots/logs_json.png)
+![Logs](screenshots/screenshots/logs_json.png)
