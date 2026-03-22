@@ -20,3 +20,30 @@ This project is a Python-based Low-Interaction Honeypot that simulates an SSH lo
 - Networking
 
 ## Project Structure
+app.py            - Flask dashboard
+listener.py       - Honeypot server
+attacker.py       - Attack simulation script
+dashboard.html    - Dashboard user interface
+dashboard.json    - Log file storing attack data
+requirements.txt  - Required Python libraries
+
+## How to Run the Project
+1. Start the honeypot listener:
+   python listener.py
+
+2. Run the attacker simulation:
+   python attacker.py
+
+3. Start the Flask dashboard:
+   python app.py
+
+4. Open the browser and go to:
+   http://127.0.0.1:5000
+
+## Project Output
+The dashboard displays:
+- Attacker IP Address
+- Username
+- Password
+- Time of attack
+
