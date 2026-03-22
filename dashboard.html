@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Honeypot Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0b132b;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #5bc0be;
+            padding: 20px 0;
+        }
+
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 90%;
+            max-width: 1000px;
+            background-color: #1c2541;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ffffff44;
+        }
+
+        th {
+            background-color: #3a506b;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #28334a;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #1c2541;
+        }
+
+        tbody tr.recent {
+            background-color: #5bc0be !important;
+            color: #0b132b;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background-color: #3a506b;
+            cursor: pointer;
+        }
+
+        td.no-data {
+            text-align: center;
+            font-style: italic;
+            color: #ff6b6b;
+        }
+
+        .severity-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #0b132b;
+        }
+
+        .severity-LOW { background-color: #5bc0be; }
+        .severity-MEDIUM { background-color: #ffa500; }
+        .severity-HIGH { background-color: #ff4c4c; }
+    </style>
+</head>
+<body>
+    <h1>Honeypot Attack Dashboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Time</th>
+                <th>Severity</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody id="logTable">
+            <tr>
+                <td class="no-data" colspan="6">Loading attacks...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/api/logs')
+            .then(response => response.json())
+            .then(data => {
+                let table = document.getElementById("logTable");
+                table.innerHTML = ''; // clear "Loading" row
+
+                if (!data.logs || data.logs.length === 0) {
+                    let row = table.insertRow();
+                    let cell = row.insertCell(0);
+                    cell.colSpan = 6;
+                    cell.className = "no-data";
+                    cell.innerText = "No attacks logged yet";
+                    return;
+                }
+
+                data.logs.forEach((log, index) => {
+                    let lines = log.payload.trim().split('\n');
+                    let row = table.insertRow();
+
+                    if (index === 0) row.classList.add("recent"); // latest attack highlight
+
+                    row.insertCell(0).innerText = log.ip;
+                    row.insertCell(1).innerText = lines[0] || '';
+                    row.insertCell(2).innerText = lines[1] || '';
+                    row.insertCell(3).innerText = log.timestamp;
+
+                    // Severity badge
+                    let severityCell = row.insertCell(4);
+                    let span = document.createElement('span');
+                    span.innerText = log.severity;
+                    span.className = 'severity-badge severity-' + log.severity;
+                    severityCell.appendChild(span);
+
+                    row.insertCell(5).innerText = log.country;
+                });
+            })
+            .catch(error => {
+                let table = document.getElementById("logTable");
+                table.innerHTML = '';
+                let row = table.insertRow();
+                let cell = row.insertCell(0);
+                cell.colSpan = 6;
+                cell.className = "no-data";
+                cell.innerText = "Error loading attacks: " + error;
+                console.error("Fetch error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
